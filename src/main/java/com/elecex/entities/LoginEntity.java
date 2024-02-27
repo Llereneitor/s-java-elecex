@@ -24,9 +24,12 @@ public class LoginEntity {
 	@Column(name = "ID_USUARIO")
 	private Integer idUsuario;
 	
+	@Column(name = "USUARIO")
 	private String username;
 	
+	@Column(name = "CONTRASEÑA")
 	private String password;
 	
+	@Column(name = "ROL")
 	private Integer rol;
 }

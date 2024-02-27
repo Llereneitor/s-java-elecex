@@ -2,7 +2,11 @@ package com.elecex.service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.elecex.model.ProveedorDto;
+import com.elecex.model.facturas.FacturaDto;
+import com.elecex.model.facturas.FacturaOutputDto;
 
 public interface ProveedoresService {
 
@@ -15,5 +19,7 @@ public interface ProveedoresService {
 	public ProveedorDto buscarProveedor(String cif);
 	
 	public List<ProveedorDto> buscarTodosProveedores();
+	
+	public FacturaDto leerFacturaPorImagen(MultipartFile pdf);
 	
 }
