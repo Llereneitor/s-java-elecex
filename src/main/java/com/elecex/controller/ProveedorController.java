@@ -12,12 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.elecex.model.facturas.FacturaDto;
-import com.elecex.model.facturas.FacturaOutputDto;
 import com.elecex.model.proveedor.ProveedorDto;
 import com.elecex.service.ProveedoresService;
 
@@ -26,6 +22,9 @@ import com.elecex.service.ProveedoresService;
 public class ProveedorController {
 
 	ProveedoresService proveedoresService;
+	
+	@Autowired
+	public ProveedorController () {}
 	
 	@Autowired
 	public ProveedorController (ProveedoresService proveedoresService) {

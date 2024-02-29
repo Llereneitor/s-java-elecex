@@ -25,6 +25,9 @@ public class ProveedoresServiceImpl implements ProveedoresService {
 	private ModelMapper modelMapper;
 
 	@Autowired
+	public ProveedoresServiceImpl() {}
+	
+	@Autowired
 	public ProveedoresServiceImpl(ProveedorRepository proveedorRepository, ModelMapper modelMapper) {
 
 		this.proveedorRepository = proveedorRepository;
@@ -36,6 +39,7 @@ public class ProveedoresServiceImpl implements ProveedoresService {
 
 		ProveedorEntity proveedorEntity = modelMapper.map(proveedor, ProveedorEntity.class);
 		proveedorRepository.save(proveedorEntity);
+		log.info("Se procede a crear un proveedor");
 		return "Proveedor con cif " + proveedor.getCif() + " se ha guardado correctamente";
 	}
 

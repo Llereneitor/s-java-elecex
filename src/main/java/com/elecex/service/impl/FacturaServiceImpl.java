@@ -34,6 +34,9 @@ public class FacturaServiceImpl implements FacturaService {
 	
 	private TransaccionesServiceImpl transacciones;
 
+	//Corrige warning
+	public FacturaServiceImpl() {}
+	
 	@Autowired
 	public FacturaServiceImpl(FacturasRepository facturasRepository, ModelMapper modelMapper,
 			TransaccionesServiceImpl transacciones) {

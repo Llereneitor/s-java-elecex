@@ -14,7 +14,6 @@ import com.elecex.entities.ClienteEntity;
 import com.elecex.model.cliente.ClienteDto;
 import com.elecex.model.transacciones.TransaccionDto;
 import com.elecex.repository.ClienteRepository;
-import com.elecex.repository.FacturasRepository;
 import com.elecex.service.ClienteService;
 import com.elecex.utils.Constantes;
 
@@ -28,9 +27,6 @@ public class ClienteServiceImpl implements ClienteService {
 	
 	@Autowired
 	private ModelMapper modelMapper;
-	
-	@Autowired
-	private FacturasRepository facturasRepository;
 	
 	@Autowired
 	private TransaccionesServiceImpl transacciones;
@@ -57,6 +53,7 @@ public class ClienteServiceImpl implements ClienteService {
 		}
 		
 		clienteRepository.deleteById(cif);
+		
 		return "El Cliente " + cif + " se ha eliminado correctamente";
 	}
 
