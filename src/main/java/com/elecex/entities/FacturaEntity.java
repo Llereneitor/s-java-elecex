@@ -29,6 +29,7 @@ public class FacturaEntity {
 	
 	@Column(name = "FECHA_REALIZADA")
 	private LocalDate fecha;
+	
 	@Column(name = "IMPORTE")
 	private BigDecimal importe;
 	

@@ -1,27 +1,17 @@
 package com.elecex.service.impl;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.elecex.entities.ProveedorEntity;
-import com.elecex.model.ProveedorDto;
-import com.elecex.model.facturas.FacturaDto;
-import com.elecex.model.facturas.FacturaOutputDto;
+import com.elecex.model.proveedor.ProveedorDto;
 import com.elecex.repository.ProveedorRepository;
 import com.elecex.service.ProveedoresService;
-import com.elecex.utils.Utils;
 
 import jakarta.transaction.Transactional;
 import lombok.extern.log4j.Log4j2;
@@ -32,16 +22,13 @@ public class ProveedoresServiceImpl implements ProveedoresService {
 
 	private ProveedorRepository proveedorRepository;
 
-	private Utils utils;
-
 	private ModelMapper modelMapper;
 
 	@Autowired
-	public ProveedoresServiceImpl(ProveedorRepository proveedorRepository, ModelMapper modelMapper, Utils utils) {
+	public ProveedoresServiceImpl(ProveedorRepository proveedorRepository, ModelMapper modelMapper) {
 
 		this.proveedorRepository = proveedorRepository;
 		this.modelMapper = modelMapper;
-		this.utils = utils;
 	}
 
 	@Override
@@ -119,14 +106,5 @@ public class ProveedoresServiceImpl implements ProveedoresService {
 			throw new IllegalArgumentException("El usuario no existe en la base de datos.");
 		}
 	}
-
-	@Override
-	public FacturaDto leerFacturaPorImagen(MultipartFile pdf) {
-
-		// Fumada maxima, no se si es viable hacerlo de esta forma, ya lo hablaremos
-		FacturaDto resultadoFactura = utils.anotherWay(pdf);
-		return resultadoFactura;
-	}
-
 	
 }

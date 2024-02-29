@@ -1,4 +1,4 @@
-package com.elecex.model;
+package com.elecex.model.proveedor;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

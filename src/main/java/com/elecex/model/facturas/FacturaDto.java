@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,6 +19,7 @@ public class FacturaDto {
 
 	private String idFactura;
 	
+	@JsonProperty("proveedor")
 	private String proveedor;
 	
 	@JsonFormat(pattern = "dd/MM/yyyy")

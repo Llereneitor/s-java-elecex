@@ -16,19 +16,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.elecex.model.ProveedorDto;
 import com.elecex.model.facturas.FacturaDto;
 import com.elecex.model.facturas.FacturaOutputDto;
+import com.elecex.model.proveedor.ProveedorDto;
 import com.elecex.service.ProveedoresService;
 
 @RestController
-@RequestMapping("/contabilidad")
-public class ContabilidadController {
+@RequestMapping("/proveedor")
+public class ProveedorController {
 
 	ProveedoresService proveedoresService;
 	
 	@Autowired
-	public ContabilidadController (ProveedoresService proveedoresService) {
+	public ProveedorController (ProveedoresService proveedoresService) {
 		
 		this.proveedoresService = proveedoresService;
 	}
@@ -58,10 +58,4 @@ public class ContabilidadController {
     public ResponseEntity<String> modificarProveedor(@RequestBody ProveedorDto proveedorInputDto) {
     	return new ResponseEntity<String>(proveedoresService.modificarProveedor(proveedorInputDto), HttpStatus.OK);
     }
-	
-	@PostMapping("/leerFacturas")
-	public ResponseEntity<FacturaDto> leerFacturas(@RequestParam("file") MultipartFile file){
-		
-		return new ResponseEntity<FacturaDto>(proveedoresService.leerFacturaPorImagen(file), HttpStatus.OK);
-	}
 }
