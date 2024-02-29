@@ -8,4 +8,5 @@ import com.elecex.entities.ClienteEntity;
 @Repository
 public interface ClienteRepository extends JpaRepository<ClienteEntity, String>{
 
+	public Boolean findByCif(String cif);
 }

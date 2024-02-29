@@ -2,6 +2,7 @@ package com.elecex.controller;
 
 import java.util.List;
 
+import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,13 +36,13 @@ public class ClienteController {
     }
 	
 	@DeleteMapping("/borrarCliente/{cif}")
-	public ResponseEntity<String> borrarCliente(@PathVariable String cif) {
+	public ResponseEntity<String> borrarCliente(@PathVariable String cif) throws BadRequestException{
 		
 		return new ResponseEntity<>(clienteService.borrarCliente(cif), HttpStatus.OK);
 	}
 	
 	@PostMapping("/crearCliente")
-    public ResponseEntity<String> CrearCliente(@RequestBody ClienteDto ClienteInputDto) {
+    public ResponseEntity<String> CrearCliente(@RequestBody ClienteDto ClienteInputDto)throws BadRequestException  {
     	return new ResponseEntity<String>(clienteService.crearCliente(ClienteInputDto), HttpStatus.OK);
     }
 	

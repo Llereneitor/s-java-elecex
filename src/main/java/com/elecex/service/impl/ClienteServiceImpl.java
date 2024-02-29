@@ -1,17 +1,22 @@
 package com.elecex.service.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.apache.coyote.BadRequestException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.elecex.entities.ClienteEntity;
 import com.elecex.model.cliente.ClienteDto;
+import com.elecex.model.transacciones.TransaccionDto;
 import com.elecex.repository.ClienteRepository;
+import com.elecex.repository.FacturasRepository;
 import com.elecex.service.ClienteService;
+import com.elecex.utils.Constantes;
 
 import jakarta.transaction.Transactional;
 
@@ -24,17 +29,33 @@ public class ClienteServiceImpl implements ClienteService {
 	@Autowired
 	private ModelMapper modelMapper;
 	
+	@Autowired
+	private FacturasRepository facturasRepository;
+	
+	@Autowired
+	private TransaccionesServiceImpl transacciones;
+	
 	@Override
-	public String crearCliente(ClienteDto cliente) {
+	public String crearCliente(ClienteDto cliente) throws BadRequestException {
 
+		if(clienteRepository.findById(cliente.getCif()).isPresent()) {
+			throw new BadRequestException("Cliente ya registrado");
+		}
 		ClienteEntity clienteEntity = modelMapper.map(cliente, ClienteEntity.class);
 		clienteRepository.save(clienteEntity);
+		
+		añadirTransaccion(cliente, Constantes.ALTA);
+		
 		return "Cliente con cif " + cliente.getCif() + " se ha guardado correctamente";
 	}
 
 	@Transactional
-	public String borrarCliente(String cif) {
-
+	public String borrarCliente(String cif) throws BadRequestException{
+		
+		if(false == clienteRepository.findByCif(cif)) {
+			throw new BadRequestException("Cliente no registrado");
+		}
+		
 		clienteRepository.deleteById(cif);
 		return "El Cliente " + cif + " se ha eliminado correctamente";
 	}
@@ -98,6 +119,25 @@ public class ClienteServiceImpl implements ClienteService {
 		} else {
 			throw new IllegalArgumentException("El usuario no existe en la base de datos.");
 		}
+	}
+	
+	private void añadirTransaccion (ClienteDto cliente, String tipoTransaccion) {
+		var fechaActual = LocalDate.now();
+		
+		TransaccionDto transaccion = TransaccionDto.builder()
+				.idCliente(cliente.getNombre())
+				.idProveedor(null)
+				.fecha(fechaActual)
+				.tipoTransaccion(tipoTransaccion)
+				.categoria(null)
+				.plazosRestante(null)
+				.estado(null)
+				.descripcion("Alta del cliente" + cliente.getNombre())
+				.importe(null)
+				.build();
+		
+		transacciones.insertarTransaccion(transaccion);
+		
 	}
 
 }
