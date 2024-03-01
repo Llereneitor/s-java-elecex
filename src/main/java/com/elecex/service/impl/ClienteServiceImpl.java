@@ -129,7 +129,7 @@ public class ClienteServiceImpl implements ClienteService {
 				.categoria(null)
 				.plazosRestante(null)
 				.estado(null)
-				.descripcion("Alta del cliente" + cliente.getNombre())
+				.descripcion("Alta del cliente: " + cliente.getNombre())
 				.importe(null)
 				.build();
 		

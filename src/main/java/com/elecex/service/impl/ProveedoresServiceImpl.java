@@ -1,5 +1,6 @@
 package com.elecex.service.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -9,9 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.elecex.entities.ProveedorEntity;
+import com.elecex.model.cliente.ClienteDto;
 import com.elecex.model.proveedor.ProveedorDto;
+import com.elecex.model.transacciones.TransaccionDto;
 import com.elecex.repository.ProveedorRepository;
 import com.elecex.service.ProveedoresService;
+import com.elecex.utils.Constantes;
 
 import jakarta.transaction.Transactional;
 import lombok.extern.log4j.Log4j2;
@@ -23,23 +27,32 @@ public class ProveedoresServiceImpl implements ProveedoresService {
 	private ProveedorRepository proveedorRepository;
 
 	private ModelMapper modelMapper;
+	
+	private TransaccionesServiceImpl transacciones;
 
-	@Autowired
 	public ProveedoresServiceImpl() {}
 	
 	@Autowired
-	public ProveedoresServiceImpl(ProveedorRepository proveedorRepository, ModelMapper modelMapper) {
+	public ProveedoresServiceImpl(ProveedorRepository proveedorRepository, ModelMapper modelMapper,
+			TransaccionesServiceImpl transacciones) {
 
 		this.proveedorRepository = proveedorRepository;
 		this.modelMapper = modelMapper;
+		this.transacciones = transacciones;
 	}
 
 	@Override
 	public String crearProveedor(ProveedorDto proveedor) {
 
+		if(proveedorRepository.findById(proveedor.getCif()).isPresent()) {
+			return "Proveedor ya registrado";
+		}
 		ProveedorEntity proveedorEntity = modelMapper.map(proveedor, ProveedorEntity.class);
 		proveedorRepository.save(proveedorEntity);
 		log.info("Se procede a crear un proveedor");
+		
+		añadirTransaccion(proveedor, Constantes.ALTA);
+		
 		return "Proveedor con cif " + proveedor.getCif() + " se ha guardado correctamente";
 	}
 
@@ -109,6 +122,25 @@ public class ProveedoresServiceImpl implements ProveedoresService {
 		} else {
 			throw new IllegalArgumentException("El usuario no existe en la base de datos.");
 		}
+	}
+	
+	private void añadirTransaccion (ProveedorDto proveedor, String tipoTransaccion) {
+		var fechaActual = LocalDate.now();
+		
+		TransaccionDto transaccion = TransaccionDto.builder()
+				.idCliente(null)
+				.idProveedor(proveedor.getNombre())
+				.fecha(fechaActual)
+				.tipoTransaccion(tipoTransaccion)
+				.categoria(null)
+				.plazosRestante(null)
+				.estado(null)
+				.descripcion("Alta del Proveedor: " + proveedor.getNombre())
+				.importe(null)
+				.build();
+		
+		transacciones.insertarTransaccion(transaccion);
+		
 	}
 	
 }

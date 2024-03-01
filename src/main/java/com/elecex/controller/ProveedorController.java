@@ -23,7 +23,6 @@ public class ProveedorController {
 
 	ProveedoresService proveedoresService;
 	
-	@Autowired
 	public ProveedorController () {}
 	
 	@Autowired
